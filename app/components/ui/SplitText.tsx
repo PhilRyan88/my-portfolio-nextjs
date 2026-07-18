@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 interface SplitTextProps {
   text: string;
@@ -20,7 +20,7 @@ export const SplitText = ({ text, className = '', delay = 0 }: SplitTextProps) =
     }),
   };
 
-  const child = {
+  const child: Variants = {
     visible: {
       opacity: 1,
       y: 0,
