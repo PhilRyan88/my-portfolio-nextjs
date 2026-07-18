@@ -27,6 +27,7 @@ export const Photography = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [width, setWidth] = useState(0);
+  const isDragging = useRef(false);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -71,19 +72,25 @@ export const Photography = () => {
           dragConstraints={{ right: 0, left: -width }}
           dragElastic={0.05}
           whileTap={{ cursor: "grabbing" }}
+          onDragStart={() => { isDragging.current = true; }}
+          onDragEnd={() => { setTimeout(() => { isDragging.current = false; }, 100); }}
           className="flex gap-6 w-max pt-4 pb-12"
         >
           {photos.map((src, i) => (
             <motion.div 
               key={i} 
               className="photo-card shrink-0 w-[80vw] sm:w-[50vw] md:w-[40vw] lg:w-[28vw] h-[60vh] rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden group cursor-pointer"
-              onClick={() => setSelectedImage(src)}
+              onClick={() => {
+                if (!isDragging.current) setSelectedImage(src);
+              }}
             >
               {/* Blurred vibrant background to elegantly fill the empty space of different aspect ratios */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={src} 
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover filter blur-2xl opacity-60 scale-125 pointer-events-none transition-opacity duration-700 group-hover:opacity-40"
               />
               

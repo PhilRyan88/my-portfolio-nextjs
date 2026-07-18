@@ -26,23 +26,26 @@ const skills = [
 
 export const Skills = () => {
   const sceneRef = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const isPaused = useRef(false);
 
-  // Trigger physics when scrolled into view
+  // Trigger physics when scrolled into view, and pause when out of view
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        setInView(true);
-        observer.disconnect();
+        setHasStarted(true);
+        isPaused.current = false;
+      } else {
+        isPaused.current = true;
       }
-    }, { threshold: 0.3 });
+    }, { threshold: 0.1 });
     
     if (sceneRef.current) observer.observe(sceneRef.current);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    if (!sceneRef.current || !inView) return;
+    if (!sceneRef.current || !hasStarted) return;
 
     const Engine = Matter.Engine,
           Runner = Matter.Runner,
@@ -114,13 +117,17 @@ export const Skills = () => {
     // Sync DOM
     let animationFrameId: number;
     const updateDOM = () => {
-      bodies.forEach((body, i) => {
-        const el = document.getElementById(`skill-node-${i}`);
-        if (el) {
-          // Translate from center of circle body to top-left of DOM element
-          el.style.transform = `translate(${body.position.x - radius}px, ${body.position.y - radius}px) rotate(${body.angle}rad)`;
-        }
-      });
+      runner.enabled = !isPaused.current; // Pause physics calculations when off-screen
+
+      if (!isPaused.current) {
+        bodies.forEach((body, i) => {
+          const el = document.getElementById(`skill-node-${i}`);
+          if (el) {
+            // Translate from center of circle body to top-left of DOM element
+            el.style.transform = `translate(${body.position.x - radius}px, ${body.position.y - radius}px) rotate(${body.angle}rad)`;
+          }
+        });
+      }
       animationFrameId = requestAnimationFrame(updateDOM);
     };
     updateDOM();
@@ -143,7 +150,7 @@ export const Skills = () => {
       Engine.clear(engine);
       World.clear(world, false);
     };
-  }, [inView]);
+  }, [hasStarted]);
 
   return (
     <section id="skills" className="w-full min-h-screen py-32 bg-[#0a0a0a] overflow-hidden flex flex-col relative">

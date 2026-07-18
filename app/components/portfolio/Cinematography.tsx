@@ -10,6 +10,48 @@ const videos = [
   { src: '/assets/cinematography/20260523_184908.mp4', title: 'Vibrance', desc: 'Commercial / 2026' },
 ];
 
+const VideoPlayer = ({ video }: { video: { src: string; title: string; desc: string } }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          videoRef.current?.play().catch(() => {});
+        } else {
+          videoRef.current?.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="w-[70vw] md:w-[50vw] lg:w-[40vw] aspect-video bg-gray-900 rounded-lg overflow-hidden group cursor-pointer relative shrink-0">
+      <video
+        ref={videoRef}
+        src={video.src}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
+      />
+      <div className="absolute inset-0 bg-black/60 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />
+      <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 pointer-events-none">
+        <h3 className="text-2xl font-bold text-white">{video.title}</h3>
+        <p className="text-gray-300">{video.desc}</p>
+      </div>
+    </div>
+  );
+};
+
 export const Cinematography = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -42,32 +84,15 @@ export const Cinematography = () => {
 
   return (
     <section ref={sectionRef} id="cinematography" className="w-full h-screen overflow-hidden bg-[#0a0a0a] flex items-center relative">
-      <div className="absolute top-16 left-8 md:left-16 z-10">
+      <div className="absolute top-16 left-8 md:left-16 z-10 pointer-events-none">
         <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tighter mix-blend-difference">
           CINEMATOGRAPHY
         </h2>
       </div>
 
-      <div ref={trackRef} className="flex gap-16 px-16 w-max items-center h-full pt-24">
+      <div ref={trackRef} className="flex gap-16 px-16 w-max items-center h-full pt-24 cursor-grab active:cursor-grabbing">
         {videos.map((video, idx) => (
-          <div
-            key={idx}
-            className="w-[70vw] md:w-[50vw] lg:w-[40vw] aspect-video bg-gray-900 rounded-lg overflow-hidden group cursor-pointer relative"
-          >
-            <video
-              src={video.src}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
-            />
-            <div className="absolute inset-0 bg-black/60 group-hover:bg-transparent transition-colors duration-700" />
-            <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-              <h3 className="text-2xl font-bold text-white">{video.title}</h3>
-              <p className="text-gray-300">{video.desc}</p>
-            </div>
-          </div>
+          <VideoPlayer key={idx} video={video} />
         ))}
       </div>
     </section>

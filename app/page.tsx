@@ -57,13 +57,13 @@ export default function Home() {
         )}
 
         {/* 3D Canvas Layer (Absolute to page top, scrolls away with Hero) */}
-        <div className="absolute top-0 left-0 w-full h-screen z-[100] pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-[100dvh] z-[100] pointer-events-none">
           <CanvasScene />
         </div>
 
         {/* Interactive Overlay & Docked Button (Absolute to match Canvas) */}
         {phase === 'docked' && !isCardExpanded && (
-          <div className="absolute top-0 left-0 w-full h-screen z-[110] pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-[100dvh] z-[110] pointer-events-none">
             
             {/* Docked Invisible Button located exactly over the card */}
             <button 
