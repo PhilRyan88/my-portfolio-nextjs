@@ -1,4 +1,3 @@
-import { useAudio } from '@/hooks/useAudio';
 import { Volume2, VolumeX } from 'lucide-react';
 import { GitHubLogoIcon, TwitterLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons';
 import { useUIStore } from '@/store/uiStore';
@@ -6,7 +5,6 @@ import { MagneticButton } from './MagneticButton';
 
 export const Navbar = () => {
   const { isMuted, setIsMuted } = useUIStore();
-  const { toggleMute } = useAudio();
   
   const links = ['WORK', 'ABOUT', 'SKILLS', 'CONTACT'];
 
@@ -37,7 +35,7 @@ export const Navbar = () => {
         
         <MagneticButton>
           <button 
-            onClick={toggleMute}
+            onClick={() => setIsMuted(!isMuted)}
             className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 hover:bg-white hover:text-black transition-all duration-300"
           >
             {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
