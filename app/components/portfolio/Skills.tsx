@@ -102,8 +102,8 @@ export const Skills = () => {
     });
     
     // Fix scroll bug when touching the canvas on mobile
-    mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
-    mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+    mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
+    mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
     
     World.add(world, mouseConstraint);
 
