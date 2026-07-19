@@ -63,14 +63,14 @@ export const Skills = () => {
     const height = sceneRef.current.clientHeight;
 
     // Set a realistic gravity for dropping
-    engine.gravity.y = 0.8;
+    engine.gravity.y = 1.2;
 
-    // Boundaries
+    // Boundaries: Tight 4-wall box to prevent balls from flying out
     const wallOptions = { isStatic: true, render: { visible: false } };
     const ground = Bodies.rectangle(width / 2, height + 50, width * 2, 100, wallOptions);
     const wallLeft = Bodies.rectangle(-50, height / 2, 100, height * 2, wallOptions);
     const wallRight = Bodies.rectangle(width + 50, height / 2, 100, height * 2, wallOptions);
-    const ceiling = Bodies.rectangle(width / 2, -1000, width * 2, 100, wallOptions);
+    const ceiling = Bodies.rectangle(width / 2, -50, width * 2, 100, wallOptions); // Actual ceiling
 
     World.add(world, [ground, wallLeft, wallRight, ceiling]);
 
@@ -81,11 +81,11 @@ export const Skills = () => {
     const bodies = skills.map((_, i) => {
       return Bodies.circle(
         width / 2 + (Math.random() * 200 - 100), // Random horizontal cluster
-        -(i * 100) - 200, // Staggered drop from way above
+        Math.random() * (height / 2), // Spawn inside the box
         radius,
         {
-          restitution: 0.6, // Bounciness
-          friction: 0.05,
+          restitution: 0.8, // Bounciness
+          friction: 0.005,
           density: 0.04,
           render: { visible: false } // We render via DOM
         }
@@ -94,23 +94,26 @@ export const Skills = () => {
 
     World.add(world, bodies);
 
-    // Add mouse control ONLY on Desktop to prevent blocking native mobile scrolling
-    if (!isMobile) {
-      const mouse = Mouse.create(sceneRef.current);
-      const mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: {
-          stiffness: 0.2,
-          render: { visible: false }
-        }
-      });
-      
-      // Fix scroll bug when touching the canvas on desktop
-      mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
-      mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
-      
-      World.add(world, mouseConstraint);
-    }
+    // Add mouse control globally
+    const mouse = Mouse.create(sceneRef.current);
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: { visible: false }
+      }
+    });
+    
+    // CRITICAL SCROLL FIX: Override matter.js hijacking all touch events
+    // We set the container to 'auto' so touching empty space scrolls the page.
+    mouse.element.style.touchAction = 'auto';
+    mouse.element.style.pointerEvents = 'auto';
+    
+    // Fix scroll bug when touching the canvas on desktop
+    mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
+    mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
+    
+    World.add(world, mouseConstraint);
 
     // Run the engine
     const runner = Runner.create();
@@ -139,9 +142,10 @@ export const Skills = () => {
       const newWidth = sceneRef.current?.clientWidth || window.innerWidth;
       const newHeight = sceneRef.current?.clientHeight || window.innerHeight;
       
-      // Update right wall and ground positions
+      // Update walls
       Matter.Body.setPosition(ground, { x: newWidth / 2, y: newHeight + 50 });
       Matter.Body.setPosition(wallRight, { x: newWidth + 50, y: newHeight / 2 });
+      Matter.Body.setPosition(ceiling, { x: newWidth / 2, y: -50 });
     };
     window.addEventListener('resize', handleResize);
 
@@ -171,7 +175,7 @@ export const Skills = () => {
           <div 
             key={i}
             id={`skill-node-${i}`}
-            className="absolute top-0 left-0 flex flex-col items-center justify-center rounded-full select-none"
+            className="absolute top-0 left-0 flex flex-col items-center justify-center rounded-full select-none touch-none"
             style={{ 
               width: 'var(--size)', 
               height: 'var(--size)',
