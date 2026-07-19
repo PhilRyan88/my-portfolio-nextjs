@@ -37,9 +37,9 @@ export default function Home() {
           <Navbar />
           <div className="w-full block">
             <Hero />
+            <Developer />
             <Photography />
             <Cinematography />
-            <Developer />
             <Tutor />
             <Experience />
             <Skills />
