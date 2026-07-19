@@ -17,9 +17,13 @@ export const useCardState = (groupRef: React.RefObject<THREE.Group | null>) => {
     const targetX = viewport.width / 2 - (viewport.width * 0.175);
     const targetY = viewport.height / 2 - (viewport.height * 0.375);
 
+    // Responsive scale to match the one in CardGroup
+    const baseScale = viewport.width < 5 ? viewport.width / 5 : 1;
+
     if (phase === 'docked' && !isCardExpanded) {
       // Animate card to top right corner
-      const targetScale = isHovered ? 0.38 : 0.35; // Scale up on hover
+      // Adjust target scale proportionally for mobile screens so it fits the docked button overlay
+      const targetScale = isHovered ? baseScale * 0.38 : baseScale * 0.35; 
       
       gsap.to(groupRef.current.position, {
         x: targetX,
@@ -43,7 +47,7 @@ export const useCardState = (groupRef: React.RefObject<THREE.Group | null>) => {
         ease: 'power2.out'
       });
     } else if (phase === 'docked' && isCardExpanded) {
-      // Animate card back to front and center
+      // Animate card back to front and center using baseScale (not hardcoded 1)
       gsap.to(groupRef.current.position, {
         x: 0,
         y: 0,
@@ -59,9 +63,9 @@ export const useCardState = (groupRef: React.RefObject<THREE.Group | null>) => {
         ease: 'power3.inOut'
       });
       gsap.to(groupRef.current.scale, {
-        x: 1,
-        y: 1,
-        z: 1,
+        x: baseScale,
+        y: baseScale,
+        z: baseScale,
         duration: 1,
         ease: 'power3.inOut'
       });

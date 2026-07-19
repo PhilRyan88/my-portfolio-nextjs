@@ -55,8 +55,8 @@ export const Experience = () => {
   return (
     <section id="experience" ref={containerRef} className="w-full py-32 bg-[#030305] relative overflow-hidden">
       
-      {/* Background ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neon-cyan/5 rounded-full blur-[120px] pointer-events-none" />
+      {/* Background ambient glow - Hidden on mobile to prevent extreme scroll lag */}
+      <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neon-cyan/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-16">
         <div className="mb-24 md:text-center">
@@ -92,8 +92,8 @@ export const Experience = () => {
                   {/* Content Card */}
                   <div className={`w-full md:w-1/2 pl-12 md:pl-0 ${isEven ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}>
                     <motion.div 
-                      initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-                      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-100px" }}
                       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                       className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 backdrop-blur-md hover:bg-white/[0.04] hover:border-neon-cyan/30 transition-all duration-500 group"

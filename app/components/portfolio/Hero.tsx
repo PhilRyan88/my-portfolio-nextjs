@@ -15,7 +15,7 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section id="hero" className="w-full min-h-[100dvh] flex flex-col justify-center px-6 md:px-16 pt-32 pb-16 relative">
+    <section id="hero" className="w-full min-h-[100lvh] flex flex-col justify-center px-6 md:px-16 pt-32 pb-16 relative">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,_rgba(0,240,255,0.05)_0%,_transparent_60%)]" />
       
       <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col justify-between h-[70vh]">

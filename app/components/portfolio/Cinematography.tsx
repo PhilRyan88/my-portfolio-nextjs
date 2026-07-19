@@ -84,9 +84,10 @@ export const Cinematography = () => {
 
   return (
     <section ref={sectionRef} id="cinematography" className="w-full h-screen overflow-hidden bg-[#0a0a0a] flex items-center relative">
-      <div className="absolute top-16 left-8 md:left-16 z-10 pointer-events-none">
-        <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tighter mix-blend-difference">
-          CINEMATOGRAPHY
+      <div className="absolute top-16 left-6 md:left-16 z-10 pointer-events-none">
+        <h2 className="text-[16vw] sm:text-[12vw] md:text-7xl font-bold text-white tracking-tighter mix-blend-difference leading-[0.85]">
+          <span className="hidden md:inline">CINEMATOGRAPHY</span>
+          <span className="md:hidden block">CINEMA<br/>TOGRAPHY</span>
         </h2>
       </div>
 

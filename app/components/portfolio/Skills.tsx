@@ -94,21 +94,23 @@ export const Skills = () => {
 
     World.add(world, bodies);
 
-    // Add mouse control
-    const mouse = Mouse.create(sceneRef.current);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: {
-        stiffness: 0.2,
-        render: { visible: false }
-      }
-    });
-    
-    // Fix scroll bug when touching the canvas on mobile
-    mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
-    mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
-    
-    World.add(world, mouseConstraint);
+    // Add mouse control ONLY on Desktop to prevent blocking native mobile scrolling
+    if (!isMobile) {
+      const mouse = Mouse.create(sceneRef.current);
+      const mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+          stiffness: 0.2,
+          render: { visible: false }
+        }
+      });
+      
+      // Fix scroll bug when touching the canvas on desktop
+      mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
+      mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
+      
+      World.add(world, mouseConstraint);
+    }
 
     // Run the engine
     const runner = Runner.create();
@@ -153,8 +155,8 @@ export const Skills = () => {
   }, [hasStarted]);
 
   return (
-    <section id="skills" className="w-full min-h-screen py-32 bg-[#0a0a0a] overflow-hidden flex flex-col relative">
-      <div className="absolute top-16 left-8 md:left-16 z-20 pointer-events-none">
+    <section id="skills" className="w-full py-20 md:py-32 bg-[#0a0a0a] overflow-hidden flex flex-col relative">
+      <div className="absolute top-10 md:top-16 left-6 md:left-16 z-20 pointer-events-none">
         <h2 className="text-4xl md:text-6xl font-display font-bold text-white tracking-tighter mix-blend-difference">
           TECH STACK
         </h2>
@@ -163,8 +165,8 @@ export const Skills = () => {
         </p>
       </div>
       
-      {/* Physics Container */}
-      <div ref={sceneRef} className="w-full flex-grow relative cursor-grab active:cursor-grabbing z-10 min-h-[70vh]">
+      {/* Physics Container - Reduced height on mobile to ensure user can safely swipe past it */}
+      <div ref={sceneRef} className="w-full mt-24 md:mt-0 relative cursor-grab active:cursor-grabbing z-10 h-[55vh] md:h-[70vh] touch-pan-y">
         {skills.map((skill, i) => (
           <div 
             key={i}
