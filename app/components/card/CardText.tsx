@@ -3,7 +3,7 @@ import { CardMaterials } from './CardMaterials';
 
 export const CardText = () => {
   return (
-    <group position={[-1.3, -0.7, 0.026]}>
+    <group position={[-1.3, -0.7, 0.031]}>
       <Text
         font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfMZhrib2Bg-4.ttf"
         fontSize={0.15}

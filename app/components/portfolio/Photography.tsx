@@ -50,18 +50,10 @@ export const Photography = () => {
           {photos.map((src, i) => (
             <div 
               key={i} 
-              className="photo-card shrink-0 w-[80vw] sm:w-[50vw] md:w-[40vw] lg:w-[28vw] h-[60vh] rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden group cursor-pointer snap-center"
+              className="photo-card shrink-0 w-[80vw] sm:w-[50vw] md:w-[40vw] lg:w-[28vw] h-[60vh] rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden group cursor-pointer snap-center bg-[#111111]"
+              style={{ contentVisibility: 'auto', containIntrinsicSize: '80vw 60vh', willChange: 'transform', transform: 'translateZ(0)' }}
               onClick={() => setSelectedImage(src)}
             >
-              {/* Blurred vibrant background to elegantly fill the empty space of different aspect ratios */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={src} 
-                alt=""
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 w-full h-full object-cover filter blur-2xl opacity-60 scale-125 pointer-events-none transition-opacity duration-700 group-hover:opacity-40"
-              />
               
               {/* Subtle darkening overlay for contrast */}
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />

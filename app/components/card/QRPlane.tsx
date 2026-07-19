@@ -30,7 +30,7 @@ export const QRPlane = () => {
       })
       // 3. QR Code pops back into the card
       .to(groupRef.current.position, {
-        z: 0.026,
+        z: 0.031,
         duration: 0.5,
         ease: 'power2.in'
       });
@@ -40,7 +40,7 @@ export const QRPlane = () => {
   }, [phase]);
 
   return (
-    <group position={[1.0, 0, 0.026]} ref={groupRef}>
+    <group position={[1.0, 0, 0.031]} ref={groupRef}>
       {/* Main QR Code Plane */}
       <mesh>
         <planeGeometry args={[0.8, 0.8]} />
