@@ -24,28 +24,7 @@ const photos = [
 ];
 
 export const Photography = () => {
-  const carouselRef = useRef<HTMLDivElement>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [width, setWidth] = useState(0);
-  const isDragging = useRef(false);
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (carouselRef.current) {
-        // Calculate the maximum drag distance (total width of inner track minus the width of the visible container)
-        setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth);
-      }
-    };
-    
-    // Initial calculation and listener for window resize
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    
-    // Optional delay calculation to ensure images have loaded and track is fully expanded
-    setTimeout(updateWidth, 500);
-
-    return () => window.removeEventListener('resize', updateWidth);
-  }, []);
 
   return (
     <section id="photography" className="w-full py-32 bg-[#030305] relative overflow-hidden">
@@ -58,31 +37,21 @@ export const Photography = () => {
           PHOTOGRAPHY
         </h2>
         <div className="flex items-center gap-2 text-neon-cyan/70 uppercase tracking-widest text-sm font-mono animate-pulse">
-          <span>Drag to explore</span>
+          <span>Swipe to explore</span>
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </div>
       </div>
       
-      {/* Draggable Carousel Container */}
-      <div ref={carouselRef} className="w-full overflow-hidden px-6 md:px-16 cursor-grab active:cursor-grabbing">
-        <motion.div 
-          drag="x"
-          dragConstraints={{ right: 0, left: -width }}
-          dragElastic={0.05}
-          whileTap={{ cursor: "grabbing" }}
-          onDragStart={() => { isDragging.current = true; }}
-          onDragEnd={() => { setTimeout(() => { isDragging.current = false; }, 100); }}
-          className="flex gap-6 w-max pt-4 pb-12"
-        >
+      {/* Native CSS Hardware-Accelerated Scroll Container */}
+      <div className="w-full overflow-x-auto snap-x snap-mandatory px-6 md:px-16 pb-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+        <div className="flex gap-6 w-max pt-4">
           {photos.map((src, i) => (
-            <motion.div 
+            <div 
               key={i} 
-              className="photo-card shrink-0 w-[80vw] sm:w-[50vw] md:w-[40vw] lg:w-[28vw] h-[60vh] rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden group cursor-pointer"
-              onClick={() => {
-                if (!isDragging.current) setSelectedImage(src);
-              }}
+              className="photo-card shrink-0 w-[80vw] sm:w-[50vw] md:w-[40vw] lg:w-[28vw] h-[60vh] rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden group cursor-pointer snap-center"
+              onClick={() => setSelectedImage(src)}
             >
               {/* Blurred vibrant background to elegantly fill the empty space of different aspect ratios */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -117,9 +86,9 @@ export const Photography = () => {
                   </svg>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     
       {/* Full-screen Lightbox Preview */}

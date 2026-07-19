@@ -13,8 +13,8 @@ export const CanvasScene = () => {
       <Canvas
         style={{ pointerEvents: 'none' }}
         shadows
-        dpr={[1, 2]}
-        gl={{ antialias: false, toneMappingExposure: 1.5 }}
+        dpr={[1, 1.5]}
+        gl={{ powerPreference: "high-performance", antialias: false, toneMappingExposure: 1.5 }}
       >
         <Suspense fallback={null}>
           <CameraRig />

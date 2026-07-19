@@ -3,7 +3,7 @@ import { sceneConfig } from '@/config/scene';
 
 export const Effects = () => {
   return (
-    <EffectComposer multisampling={8}>
+    <EffectComposer multisampling={0}>
       <Bloom
         luminanceThreshold={sceneConfig.postProcessing.bloomThreshold}
         luminanceSmoothing={sceneConfig.postProcessing.bloomSmoothing}
