@@ -6,6 +6,7 @@ import { Photography } from './components/portfolio/Photography';
 import { Cinematography } from './components/portfolio/Cinematography';
 import { Developer } from './components/portfolio/Developer';
 import { Tutor } from './components/portfolio/Tutor';
+import { Experience } from './components/portfolio/Experience';
 import { Skills } from './components/portfolio/Skills';
 import { Navbar } from './components/ui/Navbar';
 import { SmoothScroll } from './components/ui/SmoothScroll';
@@ -40,6 +41,7 @@ export default function Home() {
             <Cinematography />
             <Developer />
             <Tutor />
+            <Experience />
             <Skills />
           </div>
         </div>
