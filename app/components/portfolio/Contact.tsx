@@ -11,7 +11,7 @@ export const Contact = () => {
         Get in touch
       </motion.h2>
       <p className="text-gray-400 mb-8">
-        Currently available for freelance opportunities. If you have a project that needs a creative touch, let's talk.
+        I am always open to discussing new ideas, technologies, and interesting collaborations. Let's connect!
       </p>
       <a href="mailto:hello@example.com" className="inline-block px-8 py-4 bg-white text-black font-medium rounded-full hover:scale-105 transition-transform">
         hello@example.com

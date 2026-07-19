@@ -83,18 +83,20 @@ export const Cinematography = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="cinematography" className="w-full h-screen overflow-hidden bg-[#0a0a0a] flex items-center relative">
-      <div className="absolute top-16 left-6 md:left-16 z-10 pointer-events-none">
-        <h2 className="text-[16vw] sm:text-[12vw] md:text-7xl font-bold text-white tracking-tighter mix-blend-difference leading-[0.85]">
-          <span className="hidden md:inline">CINEMATOGRAPHY</span>
-          <span className="md:hidden block">CINEMA<br/>TOGRAPHY</span>
-        </h2>
-      </div>
+    <section id="cinematography" className="w-full relative">
+      <div ref={sectionRef} className="w-full h-screen overflow-hidden bg-[#0a0a0a] flex items-center relative">
+        <div className="absolute top-16 left-6 md:left-16 z-10 pointer-events-none">
+          <h2 className="text-[16vw] sm:text-[12vw] md:text-7xl font-bold text-white tracking-tighter mix-blend-difference leading-[0.85]">
+            <span className="hidden md:inline">CINEMATOGRAPHY</span>
+            <span className="md:hidden block">CINEMA<br/>TOGRAPHY</span>
+          </h2>
+        </div>
 
-      <div ref={trackRef} className="flex gap-16 px-16 w-max items-center h-full pt-24 cursor-grab active:cursor-grabbing">
-        {videos.map((video, idx) => (
-          <VideoPlayer key={idx} video={video} />
-        ))}
+        <div ref={trackRef} className="flex gap-16 px-16 w-max items-center h-full pt-24 cursor-grab active:cursor-grabbing">
+          {videos.map((video, idx) => (
+            <VideoPlayer key={idx} video={video} />
+          ))}
+        </div>
       </div>
     </section>
   );

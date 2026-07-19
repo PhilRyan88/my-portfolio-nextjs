@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <SmoothScroll>
       <main className="relative w-full min-h-screen bg-[#030305] text-white">
-        
+
         {/* DOM Portfolio Layer - Fades in when docked */}
         <div className={`relative z-10 transition-opacity duration-[2s] ease-in-out ${phase === 'docked' ? 'opacity-100' : 'opacity-0'}`}>
           <Navbar />
@@ -48,13 +48,11 @@ export default function Home() {
 
         {/* Background dim/blur when card is expanded (z-90, behind Canvas) */}
         {phase === 'docked' && isCardExpanded && (
-          <div 
+          <div
             className="fixed inset-0 z-[90] bg-black/70 backdrop-blur-md pointer-events-auto cursor-pointer flex flex-col items-center justify-end pb-24 transition-all duration-500"
             onClick={() => setIsCardExpanded(false)}
           >
-            <p className="font-mono text-neon-cyan text-sm tracking-widest uppercase animate-pulse">
-              Click anywhere to close
-            </p>
+
           </div>
         )}
 
@@ -66,9 +64,9 @@ export default function Home() {
         {/* Interactive Overlay & Docked Button (Absolute to match Canvas) */}
         {phase === 'docked' && !isCardExpanded && (
           <div className="absolute top-0 left-0 w-full h-[100lvh] z-[110] pointer-events-none">
-            
+
             {/* Docked Invisible Button located exactly over the card */}
-            <button 
+            <button
               className="absolute right-[10vw] top-[25vh] w-[15vw] h-[25vh] cursor-pointer pointer-events-auto"
               onClick={() => setIsCardExpanded(true)}
               onMouseEnter={() => setIsHovered(true)}

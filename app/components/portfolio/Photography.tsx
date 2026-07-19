@@ -26,6 +26,32 @@ const photos = [
 export const Photography = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [hasDragged, setHasDragged] = useState(false);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setHasDragged(false);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => setIsDragging(false);
+  const handleMouseUp = () => setIsDragging(false);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX);
+    if (Math.abs(walk) > 5) setHasDragged(true);
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk * 1.5;
+  };
+
   return (
     <section id="photography" className="w-full py-32 bg-[#030305] relative overflow-hidden">
       <h2 className="absolute top-32 left-0 right-0 text-center font-display text-[15vw] font-bold text-white/5 tracking-tighter mix-blend-overlay pointer-events-none z-0">
@@ -37,22 +63,32 @@ export const Photography = () => {
           PHOTOGRAPHY
         </h2>
         <div className="flex items-center gap-2 text-neon-cyan/70 uppercase tracking-widest text-sm font-mono animate-pulse">
-          <span>Swipe to explore</span>
+          <span>Swipe or Drag to explore</span>
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </div>
       </div>
       
-      {/* Native CSS Hardware-Accelerated Scroll Container */}
-      <div className="w-full overflow-x-auto snap-x snap-mandatory px-6 md:px-16 pb-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+      <div 
+        ref={scrollContainerRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        className={`w-full overflow-x-auto px-6 md:px-16 pb-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] ${
+          isDragging ? 'cursor-grabbing select-none' : 'cursor-grab snap-x snap-mandatory'
+        }`}
+      >
         <div className="flex gap-6 w-max pt-4">
           {photos.map((src, i) => (
             <div 
               key={i} 
-              className="photo-card shrink-0 w-[80vw] sm:w-[50vw] md:w-[40vw] lg:w-[28vw] h-[60vh] rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden group cursor-pointer snap-center bg-[#111111]"
+              className="photo-card shrink-0 w-[80vw] sm:w-[50vw] md:w-[40vw] lg:w-[28vw] h-[60vh] rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden group snap-center bg-[#111111]"
               style={{ contentVisibility: 'auto', containIntrinsicSize: '80vw 60vh', willChange: 'transform', transform: 'translateZ(0)' }}
-              onClick={() => setSelectedImage(src)}
+              onClick={() => {
+                if (!hasDragged) setSelectedImage(src);
+              }}
             >
               
               {/* Subtle darkening overlay for contrast */}

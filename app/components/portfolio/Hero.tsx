@@ -26,11 +26,6 @@ export const Hero = () => {
             Based in <br />
             <span className="text-white">Earth, Web3</span>
           </motion.div>
-          
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.7 }} className="text-right">
-            Available for <br />
-            <span className="text-neon-cyan text-glow">Freelance Work</span>
-          </motion.div>
         </div>
 
         {/* Massive Center Title */}
@@ -55,7 +50,7 @@ export const Hero = () => {
             transition={{ duration: 1, delay: 1 }}
             className="max-w-xs text-sm md:text-base text-gray-400 font-sans leading-relaxed"
           >
-            Blurring the line between high-end digital design and functional engineering to create immersive web experiences.
+            Focused on building logically and functionally accurate web applications to solve complex real-world problems.
           </motion.p>
 
           <div className="h-12 overflow-hidden flex items-end">

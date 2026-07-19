@@ -127,9 +127,12 @@ export const Skills = () => {
       if (!isPaused.current) {
         bodies.forEach((body, i) => {
           const el = document.getElementById(`skill-node-${i}`);
-          if (el) {
-            // Translate from center of circle body to top-left of DOM element
-            el.style.transform = `translate(${body.position.x - radius}px, ${body.position.y - radius}px) rotate(${body.angle}rad)`;
+          const iconEl = document.getElementById(`skill-icon-${i}`);
+          if (el && iconEl) {
+            // Translate the sphere container (Keeps the 3D light source static)
+            el.style.transform = `translate(${body.position.x - radius}px, ${body.position.y - radius}px)`;
+            // Rotate ONLY the icon inside it
+            iconEl.style.transform = `rotate(${body.angle}rad)`;
           }
         });
       }
@@ -180,15 +183,17 @@ export const Skills = () => {
               width: 'var(--size)', 
               height: 'var(--size)',
               '--size': 'clamp(80px, 9vw, 110px)',
-              // Advanced 3D Sphere CSS
-              background: 'radial-gradient(circle at 30% 30%, #ffffff, #f0f0f0 40%, #cccccc 80%, #999999)',
-              boxShadow: 'inset -10px -10px 20px rgba(0,0,0,0.15), inset 10px 10px 20px rgba(255,255,255,1), 0 20px 30px rgba(0,0,0,0.6)',
+              // Upgraded Photorealistic 3D Sphere CSS
+              background: 'radial-gradient(circle at 30% 30%, #ffffff 0%, #e6e6e6 30%, #b3b3b3 70%, #666666 100%)',
+              boxShadow: 'inset -15px -15px 25px rgba(0,0,0,0.4), inset 10px 10px 20px rgba(255,255,255,0.9), 10px 20px 35px rgba(0,0,0,0.6)',
             } as React.CSSProperties}
           >
-            <skill.icon 
-              className="w-1/2 h-1/2 drop-shadow-md transition-transform duration-300 hover:scale-110" 
-              style={{ color: skill.color }}
-            />
+            <div id={`skill-icon-${i}`} className="flex items-center justify-center w-full h-full">
+              <skill.icon 
+                className="w-1/2 h-1/2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:scale-110" 
+                style={{ color: skill.color }}
+              />
+            </div>
           </div>
         ))}
       </div>
