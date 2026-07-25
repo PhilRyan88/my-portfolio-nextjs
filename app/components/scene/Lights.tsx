@@ -23,10 +23,10 @@ export const Lights = () => {
         shadow-mapSize={[2048, 2048]}
       />
       <directionalLight position={[-8, 8, -5]} intensity={0.4} />
-      
+
       {/* Front-corner key light */}
       <directionalLight position={[-10, 10, 10]} intensity={0.7} />
-      
+
       <rectAreaLight
         ref={areaLightRef}
         width={10}

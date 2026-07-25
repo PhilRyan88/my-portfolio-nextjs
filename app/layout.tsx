@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Syne, Space_Grotesk, Archivo_Black, Orbitron } from 'next/font/google';
+import { Inter, Syne, Space_Grotesk, Archivo_Black, Orbitron, Sacramento } from 'next/font/google';
 import './globals.css';
 import { CustomCursor } from './components/ui/CustomCursor';
 
@@ -8,6 +8,7 @@ const syne = Syne({ subsets: ['latin'], weight: ['400', '500', '600', '700', '80
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], variable: '--font-space' });
 const archivoBlack = Archivo_Black({ subsets: ['latin'], weight: ['400'], variable: '--font-archivo-black' });
 const orbitron = Orbitron({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], variable: '--font-orbitron' });
+const signature = Sacramento({ subsets: ['latin'], weight: ['400'], variable: '--font-signature' });
 
 export const metadata: Metadata = {
   title: 'Aditya S Sooraj | Software Engineer',
@@ -21,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} ${syne.variable} ${spaceGrotesk.variable} ${archivoBlack.variable} ${orbitron.variable} font-sans bg-[#030305] text-white antialiased relative selection:bg-[#00F0FF] selection:text-black`}>
+      <body className={`${inter.variable} ${syne.variable} ${spaceGrotesk.variable} ${archivoBlack.variable} ${orbitron.variable} ${signature.variable} font-sans bg-[#030305] text-white antialiased relative selection:bg-[#00F0FF] selection:text-black`}>
         {/* Persistent Noise Overlay for Cinematic Texture */}
         <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-screen bg-[url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Dissolve_Noise_Texture.png')]" />
         

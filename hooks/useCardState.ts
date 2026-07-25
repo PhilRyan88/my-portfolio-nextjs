@@ -32,21 +32,24 @@ export const useCardState = (groupRef: React.RefObject<THREE.Group | null>) => {
         y: targetY,
         z: -1,
         duration: 1.5,
-        ease: 'power3.inOut'
+        ease: 'power3.inOut',
+        overwrite: 'auto'
       });
       gsap.to(groupRef.current.rotation, {
         x: Math.PI / 8, // slight upward tilt
         y: -Math.PI / 8, // slight left turn
         z: Math.PI / 16, // slight bank
         duration: 1.5,
-        ease: 'power3.inOut'
+        ease: 'power3.inOut',
+        overwrite: 'auto'
       });
       gsap.to(groupRef.current.scale, {
         x: targetScale,
         y: targetScale,
         z: targetScale,
         duration: isHovered ? 0.4 : 1.5,
-        ease: 'power2.out'
+        ease: 'power2.out',
+        overwrite: 'auto'
       });
     } else if (phase === 'docked' && isCardExpanded) {
       // Animate card back to front and center using baseScale (not hardcoded 1)
@@ -55,21 +58,24 @@ export const useCardState = (groupRef: React.RefObject<THREE.Group | null>) => {
         y: 0,
         z: 2.5,
         duration: 1,
-        ease: 'back.out(1.2)'
+        ease: 'back.out(1.2)',
+        overwrite: 'auto'
       });
       gsap.to(groupRef.current.rotation, {
         x: 0,
         y: isFlipped ? Math.PI : 0,
         z: 0,
         duration: 1,
-        ease: 'power3.inOut'
+        ease: 'power3.inOut',
+        overwrite: 'auto'
       });
       gsap.to(groupRef.current.scale, {
         x: baseScale,
         y: baseScale,
         z: baseScale,
         duration: 1,
-        ease: 'power3.inOut'
+        ease: 'power3.inOut',
+        overwrite: 'auto'
       });
     }
   }, [phase, isCardExpanded, viewport, isFlipped, isHovered]);

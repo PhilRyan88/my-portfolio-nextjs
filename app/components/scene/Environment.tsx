@@ -11,7 +11,7 @@ export const SceneEnvironment = () => {
     <>
       {/* City environment gives great premium reflections for metallic materials */}
       <Environment preset="city" />
-      
+
       {/* Soft floating particles */}
       <Sparkles
         count={particleCount}

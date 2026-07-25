@@ -91,26 +91,30 @@ export const Skills = () => {
 
     World.add(world, bodies);
 
-    // Add mouse control globally
-    const mouse = Mouse.create(sceneRef.current);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: {
-        stiffness: 0.2,
-        render: { visible: false }
-      }
-    });
-    
-    // CRITICAL SCROLL FIX: Override matter.js hijacking all touch events
-    // We set the container to 'auto' so touching empty space scrolls the page.
-    mouse.element.style.touchAction = 'auto';
-    mouse.element.style.pointerEvents = 'auto';
-    
-    // Fix scroll bug when touching the canvas on desktop
-    mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
-    mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
-    
-    World.add(world, mouseConstraint);
+    // Add mouse control ONLY on desktop to prevent scroll hijacking on mobile
+    let mouse: Matter.Mouse | undefined;
+    let mouseConstraint: Matter.MouseConstraint | undefined;
+
+    if (!isMobile) {
+      mouse = Mouse.create(sceneRef.current);
+      mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+          stiffness: 0.2,
+          render: { visible: false }
+        }
+      });
+      
+      // Override matter.js hijacking all touch events
+      mouse.element.style.touchAction = 'auto';
+      mouse.element.style.pointerEvents = 'auto';
+      
+      // Fix scroll bug when touching the canvas on desktop
+      mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
+      mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
+      
+      World.add(world, mouseConstraint);
+    }
 
     // Run the engine
     const runner = Runner.create();
@@ -159,23 +163,23 @@ export const Skills = () => {
   }, [hasStarted]);
 
   return (
-    <section id="skills" className="w-full py-20 md:py-32 bg-[#0a0a0a] overflow-hidden flex flex-col relative">
+    <section id="skills" className="w-full pt-20 md:pt-32 pb-0 bg-[#0a0a0a] overflow-hidden flex flex-col relative">
       <div className="absolute top-32 md:top-40 left-6 md:left-16 z-20 pointer-events-none">
         <h2 className="text-4xl md:text-6xl font-display font-bold text-white tracking-tighter">
           TECH STACK
         </h2>
-        <p className="text-neon-cyan/70 font-mono text-sm uppercase tracking-widest mt-4 animate-pulse">
+        <p className="hidden md:block text-neon-cyan/70 font-mono text-sm uppercase tracking-widest mt-4 animate-pulse">
           Grab and throw to interact
         </p>
       </div>
       
-      {/* Physics Container - Reduced height on mobile to ensure user can safely swipe past it */}
-      <div ref={sceneRef} className="w-full mt-24 md:mt-0 relative cursor-grab active:cursor-grabbing z-10 h-[55vh] md:h-[70vh] touch-pan-y">
+      {/* Physics Container */}
+      <div ref={sceneRef} className="w-full mt-24 md:mt-0 relative z-10 h-[60vh] md:h-[70vh]">
         {skills.map((skill, i) => (
           <div 
             key={i}
             id={`skill-node-${i}`}
-            className="absolute top-0 left-0 flex flex-col items-center justify-center rounded-full select-none touch-none"
+            className="group/ball absolute top-0 left-0 flex flex-col items-center justify-center rounded-full select-none touch-none cursor-pointer"
             style={{ 
               width: 'var(--size)', 
               height: 'var(--size)',
@@ -185,6 +189,15 @@ export const Skills = () => {
               boxShadow: 'inset -15px -15px 25px rgba(0,0,0,0.4), inset 10px 10px 20px rgba(255,255,255,0.9), 10px 20px 35px rgba(0,0,0,0.6)',
             } as React.CSSProperties}
           >
+            {/* Hover Tooltip - strictly outside the rotating icon container */}
+            <div 
+              className="absolute -top-14 opacity-0 group-hover/ball:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-mono text-white border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] z-50"
+              style={{ transform: 'rotate(0deg)' }}
+            >
+              {skill.name}
+            </div>
+
+            {/* Rotating Icon Container */}
             <div id={`skill-icon-${i}`} className="flex items-center justify-center w-full h-full">
               <skill.icon 
                 className="w-1/2 h-1/2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:scale-110" 

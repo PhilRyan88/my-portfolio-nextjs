@@ -13,6 +13,14 @@ export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isManuallyExpanded, setIsManuallyExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,10 +38,10 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isCollapsed = isScrolled && !isManuallyExpanded;
+  const isCollapsed = (isScrolled || isMobile) && !isManuallyExpanded;
 
   const handleNavClick = () => {
-    if (isScrolled) {
+    if (isScrolled || isMobile) {
       setIsManuallyExpanded(false);
     }
   };
@@ -65,7 +73,9 @@ export const Navbar = () => {
         className={`pointer-events-auto relative overflow-hidden flex items-center
           ${isCollapsed 
             ? 'w-16 h-16 rounded-full border border-white/20 bg-[#030305]/60 backdrop-blur-md mt-6 cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.5)] justify-center' 
-            : 'w-full h-[88px] rounded-none border-b border-white/5 mix-blend-difference text-white px-6 md:px-10 justify-between'
+            : (isMobile 
+                ? 'w-[95%] h-[72px] rounded-full border border-white/10 bg-[#030305]/95 backdrop-blur-xl mt-4 mix-blend-normal text-white shadow-2xl' 
+                : 'w-full h-[88px] rounded-none border-b border-white/5 mix-blend-difference text-white px-10 justify-between')
           }`}
       >
         <AnimatePresence mode="popLayout" initial={false}>
@@ -93,29 +103,46 @@ export const Navbar = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="flex items-center justify-between w-full h-full"
+              className={`flex items-center w-full h-full ${
+                isMobile 
+                  ? 'overflow-x-auto no-scrollbar gap-8 px-6 touch-pan-x' 
+                  : 'justify-between'
+              }`}
             >
               {/* Brand */}
               <div className="font-display font-bold text-xl tracking-tighter cursor-pointer flex-shrink-0">
                 A.SOORAJ <span className="text-neon-cyan">©</span>
               </div>
+              
+              {/* Mobile Close Button (Shows inside the scrollable area at the start) */}
+              {isMobile && isManuallyExpanded && (
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsManuallyExpanded(false);
+                  }}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-red-500 hover:text-white transition-all duration-300 text-white flex-shrink-0"
+                >
+                  <X size={16} />
+                </button>
+              )}
 
-              {/* Center Links (Desktop) */}
-              <div className="hidden md:flex items-center gap-8 font-mono text-sm tracking-widest absolute left-1/2 -translate-x-1/2">
+              {/* Links */}
+              <div className="flex items-center gap-6 md:gap-8 font-mono text-sm tracking-widest flex-shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2">
                 {links.map((link) => (
                   <MagneticButton key={link.name}>
                     {link.href ? (
                       <a 
                         href={link.href} 
                         onClick={() => handleNavClick()}
-                        className="hover:text-neon-cyan transition-colors duration-300 py-2"
+                        className="hover:text-neon-cyan transition-colors duration-300 py-2 whitespace-nowrap block"
                       >
                         {link.name}
                       </a>
                     ) : (
                       <button 
                         onClick={link.action} 
-                        className="hover:text-neon-cyan transition-colors duration-300 py-2"
+                        className="hover:text-neon-cyan transition-colors duration-300 py-2 whitespace-nowrap block"
                       >
                         {link.name}
                       </button>
@@ -126,7 +153,7 @@ export const Navbar = () => {
 
               {/* Right Actions */}
               <div className="flex items-center gap-6 flex-shrink-0">
-                <div className="hidden sm:flex items-center gap-6 border-r border-white/20 pr-6 mr-2">
+                <div className="flex items-center gap-6 md:border-r md:border-white/20 md:pr-6 md:mr-2">
                   <MagneticButton>
                     <a href="https://github.com/PhilRyan88" target="_blank" rel="noreferrer">
                       <GitHubLogoIcon className="w-5 h-5 hover:text-neon-violet transition-colors cursor-pointer" />
@@ -144,8 +171,8 @@ export const Navbar = () => {
                   </MagneticButton>
                 </div>
                 
-                {/* Close Button when manually expanded and scrolled */}
-                {isManuallyExpanded && isScrolled && (
+                {/* Close Button when manually expanded and scrolled (Desktop) */}
+                {!isMobile && isManuallyExpanded && isScrolled && (
                   <button 
                     onClick={(e) => {
                       e.stopPropagation(); // Don't trigger the nav container click

@@ -8,6 +8,7 @@ import { Developer } from './components/portfolio/Developer';
 // import { Tutor } from './components/portfolio/Tutor';
 import { Experience } from './components/portfolio/Experience';
 import { Skills } from './components/portfolio/Skills';
+import { Footer } from './components/ui/Footer';
 import { Navbar } from './components/ui/Navbar';
 import { SmoothScroll } from './components/ui/SmoothScroll';
 import { useAudio } from '@/hooks/useAudio';
@@ -43,6 +44,7 @@ export default function Home() {
             {/* <Tutor /> */}
             <Experience />
             <Skills />
+            <Footer />
           </div>
         </div>
 

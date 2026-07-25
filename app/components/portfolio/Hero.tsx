@@ -7,7 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const tags = ['SOFTWARE DEVELOPER', 'CINEMATOGRAPHER', 'PHOTOGRAPHER', 'BLOCKCHAIN DEV'];
+const tags = ['SOFTWARE DEVELOPER','CINEMATOGRAPHER','PHOTOGRAPHER','BLOCKCHAIN DEV'];
 
 export const Hero = () => {
   const { phase } = useAnimationStore();
@@ -15,6 +15,7 @@ export const Hero = () => {
   const [displayedText, setDisplayedText] = useState('');
   const badgeText = 'JR. SOFTWARE ENGINEER';
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
     if (phase !== 'docked') return;
@@ -33,7 +34,7 @@ export const Hero = () => {
   useEffect(() => {
     if (!marqueeRef.current) return;
     const ctx = gsap.context(() => {
-      gsap.to(marqueeRef.current, {
+      tweenRef.current = gsap.to(marqueeRef.current, {
         xPercent: -50,
         repeat: -1,
         duration: 30, // adjust duration for speed
@@ -42,6 +43,9 @@ export const Hero = () => {
     });
     return () => ctx.revert();
   }, []);
+
+  const handleMouseEnter = () => tweenRef.current?.pause();
+  const handleMouseLeave = () => tweenRef.current?.play();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -118,7 +122,11 @@ export const Hero = () => {
             Focused on building logically and functionally accurate web applications to solve complex real-world problems.
           </motion.p>
 
-          <div className="flex-1 ml-8 overflow-hidden flex items-end pb-1 mask-image-linear-edges">
+          <div 
+            className="flex-1 ml-8 overflow-hidden flex items-end pb-1 mask-image-linear-edges"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             <div
               ref={marqueeRef}
               className="text-lg md:text-2xl text-transparent [-webkit-text-stroke:1px_#6b7280] tracking-widest uppercase font-bold whitespace-nowrap flex w-max"
