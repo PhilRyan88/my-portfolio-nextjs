@@ -5,9 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const videos = [
-  { src: '/assets/cinematography/20260627_180543.mp4', title: 'Urban Lights', desc: 'Documentary / 2026' },
-  { src: '/assets/cinematography/20260627_175256.mp4', title: 'Golden Hour', desc: 'Short Film / 2026' },
-  { src: '/assets/cinematography/20260523_184908.mp4', title: 'Vibrance', desc: 'Commercial / 2026' },
+  { src: '/assets/cinematography/20260627_180543.mp4', title: 'Just an outing', desc: 'Documented moments' },
+  { src: '/assets/cinematography/20260627_175256.mp4', title: 'Flexing colour grading', desc: 'Graded using Premiere pro' },
+  { src: '/assets/cinematography/20260523_184908.mp4', title: 'Vibrance', desc: 'Just a short reel' },
 ];
 
 const VideoPlayer = ({ video }: { video: { src: string; title: string; desc: string } }) => {
@@ -85,8 +85,8 @@ export const Cinematography = () => {
   return (
     <section id="cinematography" className="w-full relative">
       <div ref={sectionRef} className="w-full h-screen overflow-hidden bg-[#0a0a0a] flex items-center relative">
-        <div className="absolute top-16 left-6 md:left-16 z-10 pointer-events-none">
-          <h2 className="text-[16vw] sm:text-[12vw] md:text-7xl font-bold text-white tracking-tighter mix-blend-difference leading-[0.85]">
+        <div className="absolute top-32 md:top-40 left-6 md:left-16 z-10 pointer-events-none">
+          <h2 className="text-[16vw] sm:text-[12vw] md:text-7xl font-bold text-white/50 md:text-white tracking-tighter leading-[0.85]">
             <span className="hidden md:inline">CINEMATOGRAPHY</span>
             <span className="md:hidden block">CINEMA<br/>TOGRAPHY</span>
           </h2>

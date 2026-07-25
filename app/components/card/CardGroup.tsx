@@ -5,6 +5,7 @@ import { CreditCard } from './CreditCard';
 import { QRPlane } from './QRPlane';
 import { CardChip } from './CardChip';
 import { CardText } from './CardText';
+import { CardBackText } from './CardBackText';
 import { useIntro } from '@/hooks/useIntro';
 import { useCardState } from '@/hooks/useCardState';
 import { Float } from '@react-three/drei';
@@ -32,6 +33,7 @@ export const CardGroup = () => {
         <CardChip />
         <QRPlane />
         <CardText />
+        <CardBackText />
       </Float>
     </group>
   );

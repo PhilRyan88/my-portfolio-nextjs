@@ -3,8 +3,7 @@ import Matter from 'matter-js';
 import { 
   SiHtml5, SiCss, SiJavascript, SiTailwindcss, 
   SiReact, SiNextdotjs, SiNodedotjs, SiExpress, 
-  SiNestjs, SiFastify, SiMongodb, SiPostgresql, 
-  SiWeb3Dotjs, SiSolidity 
+  SiNestjs, SiFastify, SiMongodb, SiSolidity 
 } from 'react-icons/si';
 
 const skills = [
@@ -19,8 +18,6 @@ const skills = [
   { name: 'NestJS', icon: SiNestjs, color: '#E0234E' },
   { name: 'Fastify', icon: SiFastify, color: '#000000' },
   { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
-  { name: 'SQL', icon: SiPostgresql, color: '#4169E1' },
-  { name: 'Web3', icon: SiWeb3Dotjs, color: '#F16822' },
   { name: 'Solidity', icon: SiSolidity, color: '#363636' }
 ];
 
@@ -163,8 +160,8 @@ export const Skills = () => {
 
   return (
     <section id="skills" className="w-full py-20 md:py-32 bg-[#0a0a0a] overflow-hidden flex flex-col relative">
-      <div className="absolute top-10 md:top-16 left-6 md:left-16 z-20 pointer-events-none">
-        <h2 className="text-4xl md:text-6xl font-display font-bold text-white tracking-tighter mix-blend-difference">
+      <div className="absolute top-32 md:top-40 left-6 md:left-16 z-20 pointer-events-none">
+        <h2 className="text-4xl md:text-6xl font-display font-bold text-white tracking-tighter">
           TECH STACK
         </h2>
         <p className="text-neon-cyan/70 font-mono text-sm uppercase tracking-widest mt-4 animate-pulse">

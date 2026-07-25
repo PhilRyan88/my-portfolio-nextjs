@@ -5,20 +5,22 @@ import * as THREE from 'three';
 import { useAnimationStore } from '@/store/animationStore';
 
 export const useCardState = (groupRef: React.RefObject<THREE.Group | null>) => {
-  const { phase, isCardExpanded, isHovered } = useAnimationStore();
+  const { phase, isCardExpanded, isHovered, isFlipped } = useAnimationStore();
   const { viewport } = useThree();
 
   useEffect(() => {
     if (!groupRef.current) return;
 
-    // Calculate precise coordinates to dock exactly below "Freelance Work"
+    // Calculate precise coordinates to dock exactly below "Freelance Work" (on desktop)
     // Center is (0,0). Top right is (viewport.width/2, viewport.height/2).
-    // We want it 17.5% from the right, and 37.5% from the top to perfectly match the DOM button.
-    const targetX = viewport.width / 2 - (viewport.width * 0.175);
-    const targetY = viewport.height / 2 - (viewport.height * 0.375);
+    const isMobile = viewport.width < 5;
+    
+    // On mobile, place it center-bottom, below the main text. On desktop, top-right.
+    const targetX = isMobile ? 0 : (viewport.width / 2 - (viewport.width * 0.175));
+    const targetY = isMobile ? (-viewport.height * 0.2) : (viewport.height / 2 - (viewport.height * 0.375));
 
     // Responsive scale to match the one in CardGroup
-    const baseScale = viewport.width < 5 ? viewport.width / 5 : 1;
+    const baseScale = isMobile ? viewport.width / 5 : 1;
 
     if (phase === 'docked' && !isCardExpanded) {
       // Animate card to top right corner
@@ -57,7 +59,7 @@ export const useCardState = (groupRef: React.RefObject<THREE.Group | null>) => {
       });
       gsap.to(groupRef.current.rotation, {
         x: 0,
-        y: 0,
+        y: isFlipped ? Math.PI : 0,
         z: 0,
         duration: 1,
         ease: 'power3.inOut'
@@ -70,5 +72,5 @@ export const useCardState = (groupRef: React.RefObject<THREE.Group | null>) => {
         ease: 'power3.inOut'
       });
     }
-  }, [phase, isCardExpanded, viewport]);
+  }, [phase, isCardExpanded, viewport, isFlipped, isHovered]);
 };

@@ -53,7 +53,7 @@ export const SplitText = ({ text, className = '', delay = 0 }: SplitTextProps) =
       style={{ perspective: '1000px' }}
     >
       {words.map((word, index) => (
-        <span key={index} className="inline-block mr-[0.2em] whitespace-nowrap">
+        <span key={index} className={`inline-block whitespace-nowrap ${index !== words.length - 1 ? 'mr-[0.2em]' : ''}`}>
           {word.split('').map((char, charIndex) => (
             <motion.span
               variants={child}

@@ -9,6 +9,8 @@ interface AnimationState {
   setIsHovered: (isHovered: boolean) => void;
   isCardExpanded: boolean;
   setIsCardExpanded: (expanded: boolean) => void;
+  isFlipped: boolean;
+  setIsFlipped: (flipped: boolean) => void;
 }
 
 export const useAnimationStore = create<AnimationState>((set) => ({
@@ -18,4 +20,6 @@ export const useAnimationStore = create<AnimationState>((set) => ({
   setIsHovered: (isHovered) => set({ isHovered }),
   isCardExpanded: false,
   setIsCardExpanded: (isCardExpanded) => set({ isCardExpanded }),
+  isFlipped: false,
+  setIsFlipped: (isFlipped) => set({ isFlipped }),
 }));

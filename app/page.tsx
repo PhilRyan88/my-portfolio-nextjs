@@ -5,7 +5,7 @@ import { Hero } from './components/portfolio/Hero';
 import { Photography } from './components/portfolio/Photography';
 import { Cinematography } from './components/portfolio/Cinematography';
 import { Developer } from './components/portfolio/Developer';
-import { Tutor } from './components/portfolio/Tutor';
+// import { Tutor } from './components/portfolio/Tutor';
 import { Experience } from './components/portfolio/Experience';
 import { Skills } from './components/portfolio/Skills';
 import { Navbar } from './components/ui/Navbar';
@@ -17,7 +17,7 @@ import { MagneticButton } from './components/ui/MagneticButton';
 
 export default function Home() {
   const { playAmbientSound } = useAudio();
-  const { phase, isCardExpanded, setIsCardExpanded, setIsHovered } = useAnimationStore();
+  const { phase, isCardExpanded, setIsCardExpanded, setIsHovered, setIsFlipped } = useAnimationStore();
 
   useEffect(() => {
     const handleInteraction = () => {
@@ -40,7 +40,7 @@ export default function Home() {
             <Developer />
             <Photography />
             <Cinematography />
-            <Tutor />
+            {/* <Tutor /> */}
             <Experience />
             <Skills />
           </div>
@@ -50,7 +50,10 @@ export default function Home() {
         {phase === 'docked' && isCardExpanded && (
           <div
             className="fixed inset-0 z-[90] bg-black/70 backdrop-blur-md pointer-events-auto cursor-pointer flex flex-col items-center justify-end pb-24 transition-all duration-500"
-            onClick={() => setIsCardExpanded(false)}
+            onClick={() => {
+              setIsCardExpanded(false);
+              setIsFlipped(false);
+            }}
           >
 
           </div>
@@ -67,7 +70,7 @@ export default function Home() {
 
             {/* Docked Invisible Button located exactly over the card */}
             <button
-              className="absolute right-[10vw] top-[25vh] w-[15vw] h-[25vh] cursor-pointer pointer-events-auto"
+              className="absolute cursor-pointer pointer-events-auto md:right-[10vw] md:top-[25vh] md:w-[15vw] md:h-[25vh] max-md:left-1/2 max-md:-translate-x-1/2 max-md:top-[60vh] max-md:w-[50vw] max-md:h-[20vh]"
               onClick={() => setIsCardExpanded(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
