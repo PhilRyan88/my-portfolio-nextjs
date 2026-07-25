@@ -91,30 +91,26 @@ export const Skills = () => {
 
     World.add(world, bodies);
 
-    // Add mouse control ONLY on desktop to prevent scroll hijacking on mobile
-    let mouse: Matter.Mouse | undefined;
-    let mouseConstraint: Matter.MouseConstraint | undefined;
-
-    if (!isMobile) {
-      mouse = Mouse.create(sceneRef.current);
-      mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: {
-          stiffness: 0.2,
-          render: { visible: false }
-        }
-      });
-      
-      // Override matter.js hijacking all touch events
-      mouse.element.style.touchAction = 'auto';
-      mouse.element.style.pointerEvents = 'auto';
-      
-      // Fix scroll bug when touching the canvas on desktop
-      mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
-      mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
-      
-      World.add(world, mouseConstraint);
-    }
+    // Enable mouse control on all devices (mobile + desktop)
+    const mouse = Mouse.create(sceneRef.current);
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: { visible: false }
+      }
+    });
+    
+    // Override matter.js hijacking all touch events
+    // pan-y allows vertical scrolling on mobile while still letting us grab balls!
+    mouse.element.style.touchAction = 'pan-y';
+    mouse.element.style.pointerEvents = 'auto';
+    
+    // Fix scroll bug when touching the canvas on desktop
+    mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
+    mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
+    
+    World.add(world, mouseConstraint);
 
     // Run the engine
     const runner = Runner.create();

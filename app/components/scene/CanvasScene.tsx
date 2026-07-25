@@ -13,7 +13,7 @@ const DesktopNotice = () => {
   const { phase } = useAnimationStore();
   if (phase !== 'scanning') return null;
   return (
-    <div className="md:hidden absolute bottom-24 left-0 w-full flex justify-center z-[9999] pointer-events-none px-6">
+    <div className="md:hidden absolute top-[60vh] left-0 w-full flex justify-center z-[9999] pointer-events-none px-6">
       <div className="flex items-center gap-2 text-neon-cyan/80 animate-pulse drop-shadow-md bg-[#030305]/50 px-4 py-2 rounded-full border border-neon-cyan/20 backdrop-blur-sm">
         <Info size={16} />
         <p className="font-mono text-[10px] md:text-xs tracking-widest uppercase">

@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <SmoothScroll>
-      <main className="relative w-full min-h-screen bg-[#030305] text-white">
+      <main className={`relative w-full bg-[#030305] text-white ${phase !== 'docked' ? 'h-[100lvh] overflow-hidden' : 'min-h-screen'}`}>
 
         {/* DOM Portfolio Layer - Fades in when docked */}
         <div className={`relative z-10 transition-opacity duration-[2s] ease-in-out ${phase === 'docked' ? 'opacity-100' : 'opacity-0'}`}>
