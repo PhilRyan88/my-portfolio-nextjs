@@ -169,14 +169,7 @@ export const Developer = () => {
                 <p className="text-xl text-gray-400 font-sans leading-relaxed font-light">
                   {p.desc}
                 </p>
-                <div className="flex gap-4 mt-8 font-mono text-sm uppercase tracking-widest">
-                  <MagneticButton className="px-8 py-4 bg-white text-black hover:bg-neon-cyan hover:text-black transition-colors duration-300">
-                    Live Demo
-                  </MagneticButton>
-                  <MagneticButton className="px-8 py-4 border border-white/20 text-white hover:border-neon-violet hover:text-neon-violet transition-colors duration-300">
-                    GitHub
-                  </MagneticButton>
-                </div>
+
               </div>
             </div>
           </div>
