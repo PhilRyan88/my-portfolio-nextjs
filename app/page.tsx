@@ -2,7 +2,7 @@
 
 import { CanvasScene } from './components/scene/CanvasScene';
 import { Hero } from './components/portfolio/Hero';
-import { Photography } from './components/portfolio/Photography';
+import { PhotographyEntry } from './components/portfolio/PhotographyEntry';
 import { Cinematography } from './components/portfolio/Cinematography';
 import { Developer } from './components/portfolio/Developer';
 // import { Tutor } from './components/portfolio/Tutor';
@@ -39,7 +39,7 @@ export default function Home() {
           <div className="w-full block">
             <Hero />
             <Developer />
-            <Photography />
+            <PhotographyEntry />
             <Cinematography />
             {/* <Tutor /> */}
             <Experience />

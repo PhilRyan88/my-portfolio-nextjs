@@ -15,24 +15,30 @@ export const Lights = () => {
 
   return (
     <>
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={0.15} />
+      {/* Main Key Light */}
       <directionalLight
-        position={[8, 8, 5]}
-        intensity={0.6}
+        position={[5, 8, 5]}
+        intensity={1.5}
         castShadow
         shadow-mapSize={[2048, 2048]}
+        color="#ffffff"
       />
-      <directionalLight position={[-8, 8, -5]} intensity={0.4} />
+      {/* Sharp Edge/Rim Light (Cool) */}
+      <directionalLight position={[-8, 8, -5]} intensity={2.0} color="#dbeafe" />
 
-      {/* Front-corner key light */}
-      <directionalLight position={[-10, 10, 10]} intensity={0.7} />
+      {/* Subtle Fill Light (Warm) */}
+      <directionalLight position={[0, -5, 5]} intensity={0.5} color="#fef3c7" />
+
+      {/* Front-corner Specular Highlight */}
+      <directionalLight position={[-10, 10, 10]} intensity={1.2} color="#ffffff" />
 
       <rectAreaLight
         ref={areaLightRef}
-        width={10}
-        height={10}
+        width={15}
+        height={15}
         color="#ffffff"
-        intensity={sceneConfig.lighting.areaLightIntensity * 0.5}
+        intensity={sceneConfig.lighting.areaLightIntensity * 0.7}
         position={[-5, 5, 5]}
         lookAt={[0, 0, 0]}
       />

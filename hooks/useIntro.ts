@@ -20,6 +20,11 @@ export const useIntro = (cardRef: React.RefObject<THREE.Group | null>) => {
 
   useEffect(() => {
     if (!cardRef.current) return;
+    
+    // If we've already completed the intro (e.g. returning from another page), skip it
+    if (useAnimationStore.getState().phase === 'docked') {
+      return;
+    }
 
     // Center the card and camera
     cardRef.current.position.set(0, 0, 0);

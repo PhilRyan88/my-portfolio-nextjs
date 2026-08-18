@@ -25,13 +25,15 @@ const DesktopNotice = () => {
 };
 
 export const CanvasScene = () => {
+  const { phase } = useAnimationStore();
+
   return (
     <div className="w-full h-full pointer-events-none">
       <Canvas
         style={{ pointerEvents: 'none' }}
         shadows
-        dpr={[1, 1.5]}
-        gl={{ powerPreference: "high-performance", antialias: false, toneMappingExposure: 1.5, logarithmicDepthBuffer: true }}
+        dpr={[1, 2]}
+        gl={{ powerPreference: "high-performance", antialias: true, toneMappingExposure: 1.2 }}
       >
         <Suspense fallback={null}>
           <CameraRig />
@@ -41,7 +43,7 @@ export const CanvasScene = () => {
           <Effects />
         </Suspense>
       </Canvas>
-      <Loader />
+      {phase !== 'docked' && <Loader />}
       <DesktopNotice />
     </div>
   );
